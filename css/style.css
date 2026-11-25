@@ -6,3 +6,27 @@
         margin: 0;
         padding: 20px;
     }
+    h1 {
+        color: #1e3a5f;
+
+    }
+    .agenda, .add-event {
+        background-color: #ffffff;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    label, input, button {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+    button {
+        background-color: #1e3a5f;
+        color: #ffffff;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
