@@ -1,0 +1,19 @@
+# Instrucoes pessoais de aprendizagem, mantidas apenas neste computador
+AGENTS.md
+
+# Credenciais e configuracoes locais
+.env
+.env.*
+!.env.example
+
+# Dependencias e ficheiros gerados
+node_modules/
+dist/
+coverage/
+*.log
+
+# Ficheiros e copias de bases de dados
+*.bak
+*.bacpac
+*.mdf
+*.ldf
