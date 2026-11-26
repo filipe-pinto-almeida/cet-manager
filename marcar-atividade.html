@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>	Marcar atividade — Agenda Pessoal </title>
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+    <header>
+        <h1>Marcar atividade</h1>
+    </header>
+    <nav>
+    <a href="index.html">Agenda</a>
+</nav>
+    <main>
+
+        <section class="add-event">
+            <h2>Adicionar Atividade</h2>
+            <form id="event-form">
+                <label for="event-title">Título:</label>
+                <input type="text" id="event-title" name="event-title" required>
+
+                <label for="event-date">Data:</label>
+                <input type="date" id="event-date" name="event-date" required>
+
+                <label for="event-time">Hora:</label>
+                <input type="time" id="event-time" name="event-time" required>
+
+                <button type="submit">Adicionar Atividade</button>
+            </form>
+        </section>
+    </main>
+    <script src="js/script.js"></script>
+
+</body>
+</html>
