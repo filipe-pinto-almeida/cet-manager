@@ -23,6 +23,20 @@ h1 {
   margin-bottom: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+nav a {
+  display: block;
+  padding: 12px;
+  margin-bottom: 8px;
+  background-color: #ffffff;
+  color: #1e3a5f;
+  text-decoration: none;
+  border-radius: 6px;
+}
 label,
 input,
 button {
