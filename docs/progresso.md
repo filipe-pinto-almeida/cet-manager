@@ -1,6 +1,6 @@
 # Progresso da Agenda Pessoal
 
-Última atualização: 26/11/2026, Europe/Lisbon.
+Última atualização: 28/11/2026, Europe/Lisbon.
 
 Este documento separa o que está implementado do que está planeado. A visão funcional e as decisões técnicas estão em [plano-projeto.md](plano-projeto.md).
 
@@ -20,12 +20,16 @@ Este documento separa o que está implementado do que está planeado. A visão f
 - Formulário vertical, botão azul e campos com texto de 16px, espaço interior de 8px, largura de 100% e `box-sizing: border-box`.
 - Capturas fornecidas pelo utilizador em 26/11/2026 mostram as duas páginas separadas, com títulos e ligações visíveis, lista vazia na Agenda e formulário vertical na outra página.
 - Fluxo Git praticado: rever alterações, preparar ficheiros, criar commit e enviar para o GitHub.
+- Menu lateral e disposição em duas colunas com CSS Grid; estilos das ligações confirmados no código e na versão publicada.
+- Envio do formulário tratado com `preventDefault()`, leitura de título/data/hora, criação de um objeto e inclusão no array `atividades`. A memória é temporária e a lista da Agenda ainda não é atualizada.
+- Versão estática publicada com Nginx no home server; páginas HTML, CSS e JavaScript responderam HTTP 200 nas verificações de 27 e 28/11/2026.
+- Ficheiro `infra/compose.yaml` preparado para SQL Server 2022 Developer: volume persistente, porta limitada a `127.0.0.1`, limite de 2560 MiB para o contentor e de 2048 MiB para SQL Server. O ficheiro foi validado com Docker Compose v5.8.0 usando uma palavra-passe fictícia apenas durante a validação, sem criar contentores.
 
 As propriedades CSS recentes foram verificadas no ficheiro. O layout completo e a adaptação a telemóveis ainda precisam de implementação e testes visuais.
 
 ## Ainda não implementado
 
-- Menu lateral e calendário com vistas Dia, Semana, 2 semanas (14 dias) e Mês.
+- Menu completo e calendário com vistas Dia, Semana, 2 semanas (14 dias) e Mês.
 - Páginas próprias de Cronogramas, Unidades Curriculares, Faltas e Valores a receber.
 - Cartões compactos das aulas e avisos de trabalhos e prazos na Agenda.
 - Registo de presença por aula e consulta de faltas.
@@ -34,9 +38,9 @@ As propriedades CSS recentes foram verificadas no ficheiro. O layout completo e 
 - Login obrigatório em toda a área pessoal, sessões e isolamento dos dados privados por utilizador.
 - Adição efetiva de atividades, persistência e atualização da lista.
 - Importação, extração, comparação e aprovação de cronogramas PDF.
-- API, Microsoft SQL Server e publicação no home server.
+- API, arranque e configuração da instância SQL Server, criação da base de dados e ligação à aplicação.
 
-O JavaScript contém a mensagem de diagnóstico na consola e o preenchimento da data atual ao abrir ou atualizar a Agenda. O formulário continua a ser um protótipo visual.
+O JavaScript preenche a data atual e mantém as atividades do formulário apenas em memória. A persistência, a apresentação dessas atividades na Agenda e a autenticação continuam pendentes.
 
 ## Decisões confirmadas
 
@@ -89,24 +93,23 @@ A ideia anterior de um painel lateral com formulário/exames foi substituída pe
 - Apenas dados fictícios durante os exercícios e testes.
 - Repositório público; instruções pessoais de estudo e referências privadas apenas locais, excluídas do Git.
 - Commits com tipos adequados, como `feat:`, `fix:` e `docs:`.
-- Publicação no home server prevista. Sistema operativo, versão, recursos e compatibilidade com SQL Server ainda por confirmar.
+- Versão estática publicada no home server com Nginx. Host Linux x86-64 e Docker Compose v5.8.0 verificados. A configuração inicial do SQL Server foi preparada com limites de memória adequados a exercícios pequenos; o arranque e o comportamento real ainda precisam de validação.
 
 ## Próxima tarefa de aprendizagem
 
-Depois de guardar esta etapa no Git, começar a ler os dados do formulário com JavaScript. Toda a escrita é feita pelo aluno:
+Retomar a preparação do SQL Server em Docker a partir de `infra/compose.yaml`:
 
-1. Confirmar no navegador a apresentação da data atual na Agenda e o funcionamento da página do formulário.
-2. Encontrar o formulário por `id` e verificar a sua existência antes de o usar, porque o script é partilhado entre páginas.
-3. Explicar o evento de envio do formulário e como impedir o recarregamento automático da página durante o tratamento desse evento.
-4. Introduzir a leitura dos valores dos campos, começando pelo título e avançando para data e hora.
-5. Observar os valores na consola para confirmar a leitura, antes de introduzir gravação e apresentação na Agenda.
+1. Rever brevemente imagem, contentor, volume e a configuração explicada em `infra/README.md`.
+2. Obter a configuração no clone do servidor através de Git e criar `infra/.env` apenas nesse servidor, com a palavra-passe privada de administração. O ficheiro está excluído do Git.
+3. Validar a configuração sem imprimir segredos e arrancar o serviço. Confirmar o estado, os limites e a ligação antes de criar uma base de treino com dados fictícios.
+4. Introduzir uma conta de aplicação com os privilégios necessários; a aplicação não utilizará `sa`.
 
-O aluno preferiu uma Agenda dinâmica com estado vazio a aulas e avisos escritos diretamente no HTML. O código da data já foi escrito. A leitura do formulário, a gravação, a apresentação dos dados e a deteção de prazos serão construídas por etapas.
-
-Ao introduzir acesso aos elementos HTML, explicar variáveis, seletores e eventos progressivamente. O mesmo script é carregado nas duas páginas: verificar a existência de cada elemento antes de o usar, porque o formulário e a lista estão em páginas diferentes. Depois, ligar o formulário à Agenda e trabalhar o aspeto dos cartões, os avisos, o restante menu e os controlos do calendário.
+Depois, retomar a persistência e apresentação das atividades. Manter as verificações de existência dos elementos HTML porque o script é partilhado entre páginas. Login, isolamento por utilizador, importação de PDFs e calendário completo permanecem no plano.
 
 ## Retoma
 
-O utilizador definiu a visão da aplicação, escolheu o nome Agenda Pessoal, separou a Agenda do formulário, criou links e corrigiu os títulos. Em 26/11/2026 mostrou as duas páginas em capturas e confirmou a navegação nos dois sentidos. Preferiu estado vazio e dados dinâmicos a exemplos fixos. Escreveu a mensagem de lista vazia e o código JavaScript da data atual, cuja sintaxe foi validada. A etapa de código foi guardada no commit `af8643f` (`feat: adiciona navegacao e data atual a Agenda Pessoal`), cuja publicação foi confirmada no GitHub. Depois, confirmar a data no navegador e começar a leitura do formulário. Os cartões, os cálculos e a gestão dinâmica de atividades ainda não estão implementados.
+Até 26/11/2026 foram definidos o nome e a visão da Agenda Pessoal, separadas as duas páginas e introduzida a data automática; essa etapa ficou no commit `af8643f`. Em 27/11/2026 foram trabalhados o menu lateral, as duas colunas, o estilo das ligações e a publicação estática com Nginx. A leitura do formulário e o array em memória também estão presentes no código atual.
+
+Em 28/11/2026 foi preparado e explicado o ficheiro Compose. A transferência da imagem SQL Server foi relatada como concluída; a presença da imagem não foi verificada diretamente porque o acesso ao Docker exige autenticação de administrador. A configuração Compose está validada, sem palavra-passe real no repositório. O serviço SQL Server ainda não foi arrancado nesta etapa. O próximo passo é configurar as credenciais privadas no servidor e verificar o arranque.
 
 Ao retomar, verificar os ficheiros e continuar pela tarefa acima. Não reiniciar o levantamento de requisitos nem implementar automaticamente a aplicação durante a aprendizagem. Só esclarecer regras concretas em falta quando forem necessárias à etapa em curso.
